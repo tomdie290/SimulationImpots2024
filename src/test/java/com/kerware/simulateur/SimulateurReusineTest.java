@@ -64,4 +64,34 @@ class SimulateurReusineTest {
         int impot = simulateur.getImpotSurRevenuNet();
         assertTrue(impot > 0);
     }
+    @Test
+    void testDivorceSansEnfant() {
+        setUpSimulateur(30000, SituationFamiliale.DIVORCE, 0, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void test2Enfants() {
+        setUpSimulateur(50000, SituationFamiliale.MARIE, 2, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() > 0);
+    }
+    @Test
+    void testBeaucoupEnfants() {
+        setUpSimulateur(80000, SituationFamiliale.MARIE, 5, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufZeroEnfant() {
+    	 setUpSimulateur(80000, SituationFamiliale.VEUF, 0, 0, false);
+         assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufUnEnfant() {
+    	 setUpSimulateur(80000, SituationFamiliale.VEUF, 1, 0, false);
+         assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    
 }
+
+
+
+

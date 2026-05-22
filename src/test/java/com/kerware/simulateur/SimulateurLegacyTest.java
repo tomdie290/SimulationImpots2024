@@ -17,14 +17,34 @@ class SimulateurLegacyTest {
     }
 
     @Test
-    void testCelibataire() {
+    void testCelibataireSansEnfant() {
         setUpSimulateur(30000, SituationFamiliale.CELIBATAIRE, 0, 0, false);
         int impot = simulateur.getImpotSurRevenuNet();
         assertTrue(impot > 0);
     }
 
     @Test
-    void testMarie3Enfants() {
+    void testCelibataireAvecEnfant() {
+        setUpSimulateur(30000, SituationFamiliale.CELIBATAIRE, 1, 0, false);
+        int impot = simulateur.getImpotSurRevenuNet();
+        assertTrue(impot > 0);
+    }
+    @Test
+    void testCelibataireAvecEnfantHandicape() {
+        setUpSimulateur(30000, SituationFamiliale.CELIBATAIRE, 1, 1, true);
+        int impot = simulateur.getImpotSurRevenuNet();
+        assertFalse(impot > 0);
+    }
+
+    @Test
+    void testMarieSansEnfant() {
+        setUpSimulateur(50000, SituationFamiliale.MARIE, 0, 0, false);
+        int impot = simulateur.getImpotSurRevenuNet();
+        assertTrue(impot > 0);
+    }
+
+    @Test
+    void testMarieAvec3Enfants() {
         setUpSimulateur(65000, SituationFamiliale.MARIE, 3, 0, false);
         int impot = simulateur.getImpotSurRevenuNet();
         assertTrue(impot > 0);
@@ -36,4 +56,54 @@ class SimulateurLegacyTest {
         int impot = simulateur.getImpotSurRevenuNet();
         assertTrue(impot > 0);
     }
+
+    @Test
+    void testEnfantHandicape() {
+        setUpSimulateur(65000, SituationFamiliale.MARIE, 2, 1, false);
+        int impot = simulateur.getImpotSurRevenuNet();
+        assertTrue(impot > 0);
+    }
+
+    @Test
+    void testRevenuEleve() {
+        setUpSimulateur(200000, SituationFamiliale.CELIBATAIRE, 0, 0, false);
+        int impot = simulateur.getImpotSurRevenuNet();
+        assertTrue(impot > 0);
+    }
+    @Test
+    void testDivorceSansEnfant() {
+        setUpSimulateur(30000, SituationFamiliale.DIVORCE, 0, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void test2Enfants() {
+        setUpSimulateur(50000, SituationFamiliale.MARIE, 2, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() > 0);
+    }
+    @Test
+    void testBeaucoupEnfants() {
+        setUpSimulateur(80000, SituationFamiliale.MARIE, 5, 0, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufZeroEnfant() {
+    	 setUpSimulateur(80000, SituationFamiliale.VEUF, 0, 0, false);
+         assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufUnEnfant() {
+    	 setUpSimulateur(80000, SituationFamiliale.VEUF, 1, 0, false);
+         assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufEnfantHandicape() {
+    	setUpSimulateur(80000, SituationFamiliale.VEUF, 1, 1, false);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    @Test
+    void testVeufPlusieurEnfantHandicape() {
+    	setUpSimulateur(80000, SituationFamiliale.VEUF, 3, 3, true);
+        assertTrue(simulateur.getImpotSurRevenuNet() >= 0);
+    }
+    
 }
